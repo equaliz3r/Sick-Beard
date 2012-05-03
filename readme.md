@@ -7,11 +7,11 @@ Modifications
 At this moment in time there is no way to have the Newshost provider search for both HD and SD episodes. Only one can be set at a time and has to be done manually, this is because of the way Newshost displays it's
 RSS feeds. The RSS feeds only display per category and you aren't capable of joining multiple categories in the RSS in order to display one main RSS of the multiple categories.
 
-In order to set this, you need to navigate to the Newshost provider.
+In order to set this, you need to navigate to the Newshost provider:  
 `root\sickbeard\providers\newshost.py`
 
 Then change the following at line 53. `cat=7` is for **SD** and `cat=8` is for **HD**. All you need to do is change the number
-to suit your needs.
+to suit your needs:  
 `url = 'http://www.newshost.za.net/rss.php?id='+ sickbeard.NEWSHOST_USERID +'&pass='+ sickbeard.NEWSHOST_AUTHKEY +'&cat=7&n=50'`
 
 All you do then is start up Sick Beard and change your provider to Newshost under the provider settings and supply the necessary credentials.
