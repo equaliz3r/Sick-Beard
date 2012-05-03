@@ -1,6 +1,8 @@
 Modifications
 =====
 
+##### Note: This modification contains build 495 of Sick Beard.
+
 * Newshost provider
 * Reduced the minimum search frequency to 5 minutes exclusively for Newshost (temporary)
 
