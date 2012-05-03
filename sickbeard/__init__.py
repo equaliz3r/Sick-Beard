@@ -30,7 +30,7 @@ from threading import Lock
 
 # apparently py2exe won't build these unless they're imported somewhere
 from sickbeard import providers, metadata
-from providers import ezrss, tvtorrents, btn, nzbmatrix, nzbsrus, newznab, womble, newzbin, nzbs_org_old
+from providers import ezrss, tvtorrents, btn, nzbmatrix, nzbsrus, newznab, womble, newzbin, nzbs_org_old, newshost
 
 from sickbeard import searchCurrent, searchBacklog, showUpdater, versionChecker, properFinder, autoPostProcesser
 from sickbeard import helpers, db, exceptions, show_queue, search_queue, scheduler
@@ -147,9 +147,13 @@ DOWNLOAD_PROPERS = None
 SEARCH_FREQUENCY = None
 BACKLOG_SEARCH_FREQUENCY = 21
 
-MIN_SEARCH_FREQUENCY = 10
+MIN_SEARCH_FREQUENCY = 5
 
 DEFAULT_SEARCH_FREQUENCY = 60
+
+NEWSHOST = False
+NEWSHOST_USERID = None
+NEWSHOST_AUTHKEY = None
 
 EZRSS = False
 TVTORRENTS = False
@@ -414,7 +418,8 @@ def initialize(consoleLogging=True):
                 USE_LIBNOTIFY, LIBNOTIFY_NOTIFY_ONSNATCH, LIBNOTIFY_NOTIFY_ONDOWNLOAD, USE_NMJ, NMJ_HOST, NMJ_DATABASE, NMJ_MOUNT, USE_SYNOINDEX, \
                 USE_BANNER, USE_LISTVIEW, METADATA_XBMC, METADATA_MEDIABROWSER, METADATA_PS3, METADATA_SYNOLOGY, metadata_provider_dict, \
                 NEWZBIN, NEWZBIN_USERNAME, NEWZBIN_PASSWORD, GIT_PATH, MOVE_ASSOCIATED_FILES, \
-                COMING_EPS_LAYOUT, COMING_EPS_SORT, COMING_EPS_DISPLAY_PAUSED, METADATA_WDTV, METADATA_TIVO, IGNORE_WORDS
+                COMING_EPS_LAYOUT, COMING_EPS_SORT, COMING_EPS_DISPLAY_PAUSED, METADATA_WDTV, METADATA_TIVO, IGNORE_WORDS, \
+                NEWSHOST, NEWSHOST_USERID, NEWSHOST_AUTHKEY
 
         if __INITIALIZED__:
             return False
@@ -551,6 +556,10 @@ def initialize(consoleLogging=True):
         TVTORRENTS = bool(check_setting_int(CFG, 'TVTORRENTS', 'tvtorrents', 0))    
         TVTORRENTS_DIGEST = check_setting_str(CFG, 'TVTORRENTS', 'tvtorrents_digest', '')
         TVTORRENTS_HASH = check_setting_str(CFG, 'TVTORRENTS', 'tvtorrents_hash', '')
+
+        NEWSHOST = bool(check_setting_int(CFG, 'NEWSHOST', 'newshost', 0))
+        NEWSHOST_USERID = check_setting_str(CFG, 'NEWSHOST', 'newshost_userid', '')
+        NEWSHOST_AUTHKEY = check_setting_str(CFG, 'NEWSHOST', 'newshost_authkey', '')
 
         BTN = bool(check_setting_int(CFG, 'BTN', 'btn', 0))    
         BTN_USER_ID = check_setting_str(CFG, 'BTN', 'btn_user_id', '')
@@ -1076,6 +1085,11 @@ def save_config():
     new_config['TVTORRENTS']['tvtorrents'] = int(TVTORRENTS)
     new_config['TVTORRENTS']['tvtorrents_digest'] = TVTORRENTS_DIGEST
     new_config['TVTORRENTS']['tvtorrents_hash'] = TVTORRENTS_HASH
+
+    new_config['NEWSHOST'] = {}
+    new_config['NEWSHOST']['newshost'] = int(NEWSHOST)
+    new_config['NEWSHOST']['newshost_userid'] = NEWSHOST_USERID
+    new_config['NEWSHOST']['newshost_authkey'] = NEWSHOST_AUTHKEY
 
     new_config['BTN'] = {}
     new_config['BTN']['btn'] = int(BTN)
