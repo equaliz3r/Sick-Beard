@@ -1,7 +1,7 @@
 Modifications
 =====
 
-*Awaiting commit and documentation on modifications.
+*Awaiting commit and documentation on modifications.*
 
 Sick Beard
 =====
