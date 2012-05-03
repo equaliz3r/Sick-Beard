@@ -12,7 +12,7 @@ In order to set this, you need to navigate to the Newshost provider:
 
 Then change the following at line 53. `cat=7` is for **SD** and `cat=8` is for **HD**. All you need to do is change the number
 to suit your needs:  
-`url = 'http://www.newshost.za.net/rss.php?id='+ sickbeard.NEWSHOST_USERID +'&pass='+ sickbeard.NEWSHOST_AUTHKEY +'&cat=7&n=50'`
+`sickbeard.NEWSHOST_USERID +'&pass='+ sickbeard.NEWSHOST_AUTHKEY +'&cat=7&n=50'`
 
 All you do then is start up Sick Beard and change your provider to Newshost under the provider settings and supply the necessary credentials.
 
