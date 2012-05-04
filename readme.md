@@ -6,7 +6,7 @@ Modifications v0.2.1
 * Newshost provider
 * Reduced the minimum search frequency to 5 minutes exclusively for Newshost (temporary)
 
-At this moment in time there is no way to have the Newshost provider search for both HD and SD episodes. Only one can be set at a time and has to be done manually, this is because of the way Newshost displays it's
+At this moment in time there is no way to have the Newshost provider search for both HD and SD episodes. Only one can be set at a time and has to be done manually. This is because of the way Newshost displays it's
 RSS feeds. The RSS feeds only display per category and you aren't capable of joining multiple categories in the RSS in order to display one main RSS of the multiple categories.
 
 In order to set this, you need to navigate to the Newshost provider:  
