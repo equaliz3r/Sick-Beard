@@ -1,4 +1,4 @@
-Modifications v0.2.1
+Modifications v0.2.2
 =====
 
 ##### Note: This modification contains build 495 of Sick Beard.
@@ -9,14 +9,9 @@ Modifications v0.2.1
 At this moment in time there is no way to have the Newshost provider search for both HD and SD episodes. Only one can be set at a time and has to be done manually. This is because of the way Newshost displays it's
 RSS feeds. The RSS feeds only display per category and you aren't capable of joining multiple categories in the RSS in order to display one main RSS of the multiple categories.
 
-In order to set this, you need to navigate to the Newshost provider:  
-`root\sickbeard\providers\newshost.py`
-
-Then change the following at line 53. `cat=7` is for **SD** and `cat=8` is for **HD**. All you need to do is change the number
-to suit your needs:  
-`sickbeard.NEWSHOST_USERID +'&pass='+ sickbeard.NEWSHOST_AUTHKEY +'&cat=7&n=50'`
-
-All you do then is start up Sick Beard and change your provider to Newshost under the provider settings and supply the necessary credentials.
+All you do is start up Sick Beard and change your provider to Newshost under the provider settings and supply the necessary credentials. Alongside the credentials is another text box you'll need to insert a value into.
+This is for the quality categories on Newshost. 7 is for **SD**, 8 is for **HD**. Set the value of choice for the quality of series you always download. Please note that when you add/edit a show, you need to set the
+equivalent quality for it as well in accordance to what you entered in the Search Provider configutation for Newshost.
 
 That's it!
 
