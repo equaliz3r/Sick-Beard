@@ -154,6 +154,7 @@ DEFAULT_SEARCH_FREQUENCY = 60
 NEWSHOST = False
 NEWSHOST_USERID = None
 NEWSHOST_AUTHKEY = None
+NEWSHOST_CAT = None
 
 EZRSS = False
 TVTORRENTS = False
@@ -419,7 +420,7 @@ def initialize(consoleLogging=True):
                 USE_BANNER, USE_LISTVIEW, METADATA_XBMC, METADATA_MEDIABROWSER, METADATA_PS3, METADATA_SYNOLOGY, metadata_provider_dict, \
                 NEWZBIN, NEWZBIN_USERNAME, NEWZBIN_PASSWORD, GIT_PATH, MOVE_ASSOCIATED_FILES, \
                 COMING_EPS_LAYOUT, COMING_EPS_SORT, COMING_EPS_DISPLAY_PAUSED, METADATA_WDTV, METADATA_TIVO, IGNORE_WORDS, \
-                NEWSHOST, NEWSHOST_USERID, NEWSHOST_AUTHKEY
+                NEWSHOST, NEWSHOST_USERID, NEWSHOST_AUTHKEY, NEWSHOST_CAT
 
         if __INITIALIZED__:
             return False
@@ -560,6 +561,7 @@ def initialize(consoleLogging=True):
         NEWSHOST = bool(check_setting_int(CFG, 'NEWSHOST', 'newshost', 0))
         NEWSHOST_USERID = check_setting_str(CFG, 'NEWSHOST', 'newshost_userid', '')
         NEWSHOST_AUTHKEY = check_setting_str(CFG, 'NEWSHOST', 'newshost_authkey', '')
+        NEWSHOST_CAT = check_setting_str(CFG, 'NEWSHOST', 'newshost_cat', '')
 
         BTN = bool(check_setting_int(CFG, 'BTN', 'btn', 0))    
         BTN_USER_ID = check_setting_str(CFG, 'BTN', 'btn_user_id', '')
@@ -1090,6 +1092,7 @@ def save_config():
     new_config['NEWSHOST']['newshost'] = int(NEWSHOST)
     new_config['NEWSHOST']['newshost_userid'] = NEWSHOST_USERID
     new_config['NEWSHOST']['newshost_authkey'] = NEWSHOST_AUTHKEY
+    new_config['NEWSHOST']['newshost_cat'] = NEWSHOST_CAT
 
     new_config['BTN'] = {}
     new_config['BTN']['btn'] = int(BTN)

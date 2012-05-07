@@ -1,4 +1,4 @@
-# Newshost provider for Sick Beard (v0.2.1)
+# Newshost provider for Sick Beard (v0.2.2)
 # Provider Author: Yngvi (WooKi - http://wooki.za.net/)
 # Sick Beard Author: Nic Wolfe <nic@wolfeden.ca>
 # URL: http://code.google.com/p/sickbeard/
@@ -50,7 +50,7 @@ class NewshostCache(tvcache.TVCache):
     def _getRSSData(self):
 
         #SD: cat=7 | HD: cat=8 | RSS item display amount: n=50 (Change cat to your liking but leave n=50 alone!)
-        url = 'http://www.newshost.za.net/rss.php?id='+ sickbeard.NEWSHOST_USERID +'&pass='+ sickbeard.NEWSHOST_AUTHKEY +'&cat=7&n=50'
+        url = 'http://www.newshost.za.net/rss.php?id='+ sickbeard.NEWSHOST_USERID +'&pass='+ sickbeard.NEWSHOST_AUTHKEY +'&cat='+ sickbeard.NEWSHOST_CAT +'&n=50'
         logger.log(u"Newshost cache update URL: "+ url, logger.DEBUG)
 
         data = self.provider.getURL(url)

@@ -163,6 +163,12 @@ var show_nzb_providers = #if $sickbeard.USE_NZBS then "true" else "false"#;
                                 <input class="component-desc" type="text" name="newshost_authkey" value="$sickbeard.NEWSHOST_AUTHKEY" size="40" />
                             </label>
                         </div>
+                        <div class="field-pair">
+                            <label class="clearfix">
+                                <span class="component-title">Quality Category (7 = SD, 8 = HD)</span>
+                                <input class="component-desc" type="text" name="newshost_cat" value="$sickbeard.NEWSHOST_CAT" size="10" />
+                            </label>
+                        </div>
 </div>
 
 <div class="providerDiv" id="newzbinDiv">
