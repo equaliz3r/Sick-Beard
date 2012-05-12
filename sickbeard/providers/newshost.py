@@ -1,4 +1,4 @@
-# Newshost provider for Sick Beard (v0.2.2)
+# Newshost provider for Sick Beard (v0.2.3)
 # Provider Author: Yngvi (WooKi - http://wooki.za.net/)
 # Sick Beard Author: Nic Wolfe <nic@wolfeden.ca>
 # URL: http://code.google.com/p/sickbeard/

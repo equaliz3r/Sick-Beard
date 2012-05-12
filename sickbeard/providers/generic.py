@@ -23,6 +23,7 @@ import os
 import sys
 import re
 import urllib2
+import zipfile
 
 import sickbeard
 
@@ -144,13 +145,28 @@ class GenericProvider:
         logger.log(u"Saving to " + fileName, logger.DEBUG)
 
         try:
-            fileOut = open(fileName, writeMode)
+            fileOut = open(fileName, 'wb')
             fileOut.write(data)
             fileOut.close()
             helpers.chmodAsParent(fileName)
         except IOError, e:
             logger.log("Unable to save the file: "+ex(e), logger.ERROR)
             return False
+
+        #Unzipping and uncompression procedure for NZBS delivered in zip files
+        #for black hole method
+
+        logger.log(u"Processing zip file " + fileName, logger.DEBUG)
+
+        zObj = zipfile.ZipFile(fileName)
+
+        for name in zObj.namelist():
+
+            unzipped = zObj.read(name)
+
+            zOut = open(fileName, 'wb')
+            zOut.write(unzipped)
+            zOut.close()
 
         # as long as it's a valid download then consider it a successful snatch
         return self._verify_download(fileName)
