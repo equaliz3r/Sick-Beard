@@ -1,7 +1,7 @@
 Modifications v0.2.3
 =====
 
-##### Note: This modification contains build 495 of Sick Beard.
+##### Note: This modification contains build 496 of Sick Beard.
 
 * Newshost provider.
 * Wrote unzip/uncompress support for nzbs delivered in zip files. Primarily aimed for the black hole method.
