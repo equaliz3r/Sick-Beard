@@ -4,7 +4,7 @@ Modifications v0.2.4
 ##### Note: This modification contains build 496 of Sick Beard.
 
 * Newshost provider.
-* Wrote unzip/uncompress support for nzbs delivered in zip files. Primarily aimed towards the black hole method.
+* Wrote unzip/decompress support for nzbs delivered in zip files. Primarily aimed towards the black hole method.
 * Reduced the minimum search frequency to 5 minutes exclusively for Newshost (temporary).
 
 Just run it like your usual Sick Beard and select the Newshost provider and supply your user ID and authentication key.
