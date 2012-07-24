@@ -1,4 +1,4 @@
-Modifications v0.2.3
+Modifications v0.2.4
 =====
 
 ##### Note: This modification contains build 496 of Sick Beard.
@@ -7,14 +7,7 @@ Modifications v0.2.3
 * Wrote unzip/uncompress support for nzbs delivered in zip files. Primarily aimed for the black hole method.
 * Reduced the minimum search frequency to 5 minutes exclusively for Newshost (temporary).
 
-At this moment in time there is no way to have the Newshost provider search for both HD and SD episodes. Only one can be set at a time and has to be done manually. This is because of the way Newshost displays it's
-RSS feeds. The RSS feeds only display per category and you aren't capable of joining multiple categories in the RSS in order to display one main RSS of the multiple categories.
-
-All you do is start up Sick Beard and change your provider to Newshost under the provider settings and supply the necessary credentials. Alongside the credentials is another text box you'll need to insert a value into.
-This is for the quality categories on Newshost. 7 is for **SD**, 8 is for **HD**. Set the value of choice for the quality of series you always download. Please note that when you add/edit a show, you need to set the
-equivalent quality for it as well in accordance to what you entered in the Search Provider configutation for Newshost.
-
-That's it!
+Just run it like your usual Sick Beard and select the Newshost provider and supply your user ID and authentication key.
 
 Sick Beard
 =====

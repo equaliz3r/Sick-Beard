@@ -1094,7 +1094,7 @@ class ConfigProviders:
                       tvtorrents_digest=None, tvtorrents_hash=None,
  					  btn_api_key=None,
                       newzbin_username=None, newzbin_password=None,
-                      newshost_userid=None, newshost_authkey=None, newshost_cat=None,
+                      newshost_userid=None, newshost_authkey=None,
                       provider_order=None):
 
         results = []
@@ -1177,8 +1177,7 @@ class ConfigProviders:
         sickbeard.NZBMATRIX_APIKEY = nzbmatrix_apikey.strip()
 
         sickbeard.NEWSHOST_USERID = newshost_userid
-        sickbeard.NEWSHOST_AUTHKEY = newshost_authkey
-        sickbeard.NEWSHOST_CAT = newshost_cat.strip()
+        sickbeard.NEWSHOST_AUTHKEY = newshost_authkey.strip()
 
         sickbeard.NEWZBIN_USERNAME = newzbin_username
         sickbeard.NEWZBIN_PASSWORD = newzbin_password
