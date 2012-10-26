@@ -1,4 +1,4 @@
-# Newshost provider for Sick Beard (v0.2.4 - build 496 SB)
+# Newshost provider for Sick Beard (v0.2.4 - build 497 SB)
 # Provider Author: Yngvi (WooKi - http://wooki.za.net/)
 # Sick Beard Author: Nic Wolfe <nic@wolfeden.ca>
 # URL: http://code.google.com/p/sickbeard/
