@@ -1,7 +1,7 @@
 Modifications v0.2.4
 =====
 
-##### Note: This modification contains build 497 of Sick Beard.
+##### Note: This modification contains build 499 of Sick Beard.
 
 * Newshost provider.
 * Wrote unzip/uncompress support for nzbs delivered in zip files. Primarily aimed towards the black hole method.
@@ -41,6 +41,7 @@ Sick Beard makes use of the following projects:
 * [Python GNTP][pythongntp]
 * [SocksiPy][socks]
 * [python-dateutil][dateutil]
+* [jsonrpclib][jsonrpclib]
 
 ## Dependencies
 
@@ -63,3 +64,4 @@ If you find a bug please report it or it'll never get fixed. Verify that it hasn
 [googledownloads]: http://code.google.com/p/sickbeard/downloads/list
 [googleissues]: http://code.google.com/p/sickbeard/issues/list
 [googlenewissue]: http://code.google.com/p/sickbeard/issues/entry
+[jsonrpclib]: https://github.com/joshmarshall/jsonrpclib

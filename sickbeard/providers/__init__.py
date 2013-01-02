@@ -18,13 +18,10 @@
 
 __all__ = ['ezrss',
            'tvtorrents',
-           'nzbmatrix',
-           'nzbs_org_old',
            'nzbsrus',
            'womble',
-           'newzbin',
            'btn',
-           'newshost',
+		   'newshost',
            ]
 
 import sickbeard
