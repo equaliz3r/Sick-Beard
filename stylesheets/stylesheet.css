@@ -157,7 +157,8 @@ p.tagline {
   -webkit-transform: rotate(45deg);
 }
 
-.download-bar .avatar {
+.
+-bar .avatar {
   border: 1px solid black;
   display: block;
   padding: 4px;
@@ -228,7 +229,7 @@ p.tagline {
 
 a.zip,
 a.zip span {
-  background: transparent url(../images/zip.png) no-repeat 0 0;
+  background: transparent url(../images/) no-repeat 0 0;
   width: 30px;
   height: 21px;
   opacity: 0.8;
@@ -241,7 +242,7 @@ a.zip span {
 
 a.tar,
 a.tar span {
-  background: transparent url(../images/tar.png) no-repeat 0 0;
+  background: transparent url(../images/) no-repeat 0 0;
   width: 30px;
   height: 21px;
   opacity: 0.8;
@@ -278,7 +279,7 @@ a.download-button {
   border-radius: 3px;
   display: inline-block;
   text-indent: 0!important;
-  width: auto;
+  width: 160px;
   float: right;
   background: #999; /* for non-css3 browsers */
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#37ADD4', endColorstr='#1B657E'); /* for IE */
@@ -293,7 +294,7 @@ a.download-button span {
   width: auto;
   height: auto;
   padding: 5px 10px;
-  padding-left: 45px;
+  padding-left: 30px;
   display: inline-block;
   text-indent: 0!important;
   color: #fff;
