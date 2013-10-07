@@ -23,7 +23,7 @@ import sickbeard
 import urllib
 import datetime
 
-from common import USER_AGENT
+from common import USER_AGENT, Quality
 
 class SickBeardURLopener(urllib.FancyURLopener):
     version = USER_AGENT
@@ -84,7 +84,7 @@ class SearchResult:
         self.episodes = episodes
 
         # quality of the release
-        self.quality = -1
+        self.quality = Quality.UNKNOWN
 
         # release name
         self.name = ""
@@ -149,7 +149,7 @@ class Proper:
         self.url = url
         self.date = date
         self.provider = None
-        self.quality = -1
+        self.quality = Quality.UNKNOWN
 
         self.tvdbid = -1
         self.season = -1
@@ -178,10 +178,11 @@ class ErrorViewer():
     def clear():
         ErrorViewer.errors = []
 
+
 class UIError():
     """
     Represents an error to be displayed in the web UI.
     """
     def __init__(self, message):
         self.message = message
-        self.time = datetime.datetime.now()
+        self.time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')

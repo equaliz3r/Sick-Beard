@@ -35,9 +35,10 @@ from sickbeard.exceptions import ex
 from sickbeard import encodingKludge as ek
 from sickbeard import search_queue
 from sickbeard.common import SNATCHED, SNATCHED_PROPER, DOWNLOADED, SKIPPED, UNAIRED, IGNORED, ARCHIVED, WANTED, UNKNOWN
-from common import ANY, Quality, qualityPresetStrings, statusStrings
+from common import Quality, qualityPresetStrings, statusStrings
 from sickbeard import image_cache
 from lib.tvdb_api import tvdb_api, tvdb_exceptions
+
 try:
     import json
 except ImportError:
@@ -67,7 +68,7 @@ result_type_map = {RESULT_SUCCESS: "success",
 
 class Api:
     """ api class that returns json results """
-    version = 3 # use an int since float-point is unpredictible
+    version = 4 # use an int since float-point is unpredictible
     intent = 4
 
     @cherrypy.expose
@@ -605,11 +606,13 @@ def _getQualityMap():
     return {Quality.SDTV: 'sdtv',
             Quality.SDDVD: 'sddvd',
             Quality.HDTV: 'hdtv',
+            Quality.RAWHDTV: 'rawhdtv',
+            Quality.FULLHDTV: 'fullhdtv',
             Quality.HDWEBDL: 'hdwebdl',
+            Quality.FULLHDWEBDL: 'fullhdwebdl',
             Quality.HDBLURAY: 'hdbluray',
             Quality.FULLHDBLURAY: 'fullhdbluray',
-            Quality.UNKNOWN: 'unknown',
-            ANY: 'any'}
+            Quality.UNKNOWN: 'unknown'}
 
 
 def _getRootDirs():
@@ -714,7 +717,7 @@ class CMD_ComingEpisodes(ApiCall):
         for cur_result in sql_results:
             done_show_list.append(int(cur_result["tvdbid"]))
 
-        more_sql_results = myDB.select("SELECT airdate, airs, episode, name AS 'ep_name', description AS 'ep_plot', network, season, showid AS 'tvdbid', show_name, tv_shows.quality AS quality, tv_shows.status AS 'show_status', tv_shows.paused AS 'paused' FROM tv_episodes outer_eps, tv_shows WHERE season != 0 AND showid NOT IN (" + ','.join(['?'] * len(done_show_list)) + ") AND tv_shows.tvdb_id = outer_eps.showid AND airdate = (SELECT airdate FROM tv_episodes inner_eps WHERE inner_eps.showid = outer_eps.showid AND inner_eps.airdate >= ? ORDER BY inner_eps.airdate ASC LIMIT 1) AND outer_eps.status NOT IN (" + ','.join(['?'] * len(Quality.DOWNLOADED + Quality.SNATCHED)) + ")", done_show_list + [next_week] + Quality.DOWNLOADED + Quality.SNATCHED)
+        more_sql_results = myDB.select("SELECT airdate, airs, episode, name AS 'ep_name', description AS 'ep_plot', network, season, showid AS 'tvdbid', show_name, tv_shows.quality AS quality, tv_shows.status AS 'show_status', tv_shows.paused AS 'paused' FROM tv_episodes outer_eps, tv_shows WHERE season != 0 AND showid NOT IN (" + ','.join(['?'] * len(done_show_list)) + ") AND tv_shows.tvdb_id = outer_eps.showid AND airdate = (SELECT airdate FROM tv_episodes inner_eps WHERE inner_eps.season != 0 AND inner_eps.showid = outer_eps.showid AND inner_eps.airdate >= ? ORDER BY inner_eps.airdate ASC LIMIT 1) AND outer_eps.status NOT IN (" + ','.join(['?'] * len(Quality.DOWNLOADED + Quality.SNATCHED)) + ")", done_show_list + [next_week] + Quality.DOWNLOADED + Quality.SNATCHED)
         sql_results += more_sql_results
 
         more_sql_results = myDB.select("SELECT airdate, airs, episode, name AS 'ep_name', description AS 'ep_plot', network, season, showid AS 'tvdbid', show_name, tv_shows.quality AS quality, tv_shows.status AS 'show_status', tv_shows.paused AS 'paused' FROM tv_episodes, tv_shows WHERE season != 0 AND tv_shows.tvdb_id = tv_episodes.showid AND airdate < ? AND airdate >= ? AND tv_episodes.status = ? AND tv_episodes.status NOT IN (" + ','.join(['?'] * len(qualList)) + ")", [today, recently, WANTED] + qualList)
@@ -1129,12 +1132,12 @@ class CMD_Logs(ApiCall):
         minLevel = logger.reverseNames[str(self.min_level).upper()]
 
         data = []
-        if os.path.isfile(logger.sb_log_instance.log_file):
-            f = ek.ek(open, logger.sb_log_instance.log_file)
+        if os.path.isfile(logger.sb_log_instance.log_file_path):
+            f = ek.ek(open, logger.sb_log_instance.log_file_path)
             data = f.readlines()
             f.close()
 
-        regex = "^(\w{3})\-(\d\d)\s*(\d\d)\:(\d\d):(\d\d)\s*([A-Z]+)\s*(.+?)\s*\:\:\s*(.*)$"
+        regex = "^(\d\d\d\d)\-(\d\d)\-(\d\d)\s*(\d\d)\:(\d\d):(\d\d)\s*([A-Z]+)\s*(.+?)\s*\:\:\s*(.*)$"
 
         finalData = []
 
@@ -1148,7 +1151,7 @@ class CMD_Logs(ApiCall):
             match = re.match(regex, x)
 
             if match:
-                level = match.group(6)
+                level = match.group(7)
                 if level not in logger.reverseNames:
                     lastLine = False
                     continue
@@ -1533,8 +1536,8 @@ class CMD_SickBeardSetDefaults(ApiCall):
     def __init__(self, args, kwargs):
         # required
         # optional
-        self.initial, args = self.check_params(args, kwargs, "initial", None, False, "list", ["sdtv", "sddvd", "hdtv", "hdwebdl", "hdbluray", "fullhdbluray", "unknown", "any"])
-        self.archive, args = self.check_params(args, kwargs, "archive", None, False, "list", ["sddvd", "hdtv", "hdwebdl", "hdbluray", "fullhdbluray", "unknown", "any"])
+        self.initial, args = self.check_params(args, kwargs, "initial", None, False, "list", ["sdtv", "sddvd", "hdtv", "rawhdtv", "fullhdtv", "hdwebdl", "fullhdwebdl", "hdbluray", "fullhdbluray", "unknown"])
+        self.archive, args = self.check_params(args, kwargs, "archive", None, False, "list", ["sddvd", "hdtv", "rawhdtv", "fullhdtv", "hdwebdl", "fullhdwebdl", "hdbluray", "fullhdbluray"])
         self.future_show_paused, args = self.check_params(args, kwargs, "future_show_paused", None, False, "bool", [])
         self.flatten_folders, args = self.check_params(args, kwargs, "flatten_folders", None, False, "bool", [])
         self.status, args = self.check_params(args, kwargs, "status", None, False, "string", ["wanted", "skipped", "archived", "ignored"])
@@ -1547,11 +1550,13 @@ class CMD_SickBeardSetDefaults(ApiCall):
         quality_map = {'sdtv': Quality.SDTV,
                        'sddvd': Quality.SDDVD,
                        'hdtv': Quality.HDTV,
+                       'rawhdtv': Quality.RAWHDTV,
+                       'fullhdtv': Quality.FULLHDTV,
                        'hdwebdl': Quality.HDWEBDL,
+                       'fullhdwebdl': Quality.FULLHDWEBDL,
                        'hdbluray': Quality.HDBLURAY,
                        'fullhdbluray': Quality.FULLHDBLURAY,
-                       'unknown': Quality.UNKNOWN,
-                       'any': ANY }
+                       'unknown': Quality.UNKNOWN}
 
         iqualityID = []
         aqualityID = []
@@ -1683,8 +1688,8 @@ class CMD_ShowAddExisting(ApiCall):
         self.location, args = self.check_params(args, kwargs, "location", None, True, "string", [])
         self.tvdbid, args = self.check_params(args, kwargs, "tvdbid", None, True, "int", [])
         # optional
-        self.initial, args = self.check_params(args, kwargs, "initial", None, False, "list", ["sdtv", "sddvd", "hdtv", "hdwebdl", "hdbluray", "fullhdbluray", "unknown", "any"])
-        self.archive, args = self.check_params(args, kwargs, "archive", None, False, "list", ["sddvd", "hdtv", "hdwebdl", "hdbluray", "fullhdbluray", "unknown", "any"])
+        self.initial, args = self.check_params(args, kwargs, "initial", None, False, "list", ["sdtv", "sddvd", "hdtv", "rawhdtv", "fullhdtv", "hdwebdl", "fullhdwebdl", "hdbluray", "fullhdbluray", "unknown"])
+        self.archive, args = self.check_params(args, kwargs, "archive", None, False, "list", ["sddvd", "hdtv", "rawhdtv", "fullhdtv", "hdwebdl", "fullhdwebdl", "hdbluray", "fullhdbluray"])
         self.flatten_folders, args = self.check_params(args, kwargs, "flatten_folders", str(sickbeard.FLATTEN_FOLDERS_DEFAULT), False, "bool", [])
         # super, missing, help
         ApiCall.__init__(self, args, kwargs)
@@ -1713,11 +1718,13 @@ class CMD_ShowAddExisting(ApiCall):
         quality_map = {'sdtv': Quality.SDTV,
                        'sddvd': Quality.SDDVD,
                        'hdtv': Quality.HDTV,
+                       'rawhdtv': Quality.RAWHDTV,
+                       'fullhdtv': Quality.FULLHDTV,
                        'hdwebdl': Quality.HDWEBDL,
+                       'fullhdwebdl': Quality.FULLHDWEBDL,
                        'hdbluray': Quality.HDBLURAY,
                        'fullhdbluray': Quality.FULLHDBLURAY,
-                       'unknown': Quality.UNKNOWN,
-                       'any': ANY }
+                       'unknown': Quality.UNKNOWN}
 
         #use default quality as a failsafe
         newQuality = int(sickbeard.QUALITY_DEFAULT)
@@ -1762,8 +1769,8 @@ class CMD_ShowAddNew(ApiCall):
         self.tvdbid, args = self.check_params(args, kwargs, "tvdbid", None, True, "int", [])
         # optional
         self.location, args = self.check_params(args, kwargs, "location", None, False, "string", [])
-        self.initial, args = self.check_params(args, kwargs, "initial", None, False, "list", ["sdtv", "sddvd", "hdtv", "hdwebdl", "hdbluray", "fullhdbluray", "unknown", "any"])
-        self.archive, args = self.check_params(args, kwargs, "archive", None, False, "list", ["sddvd", "hdtv", "hdwebdl", "hdbluray", "fullhdbluray", "unknown", "any"])
+        self.initial, args = self.check_params(args, kwargs, "initial", None, False, "list", ["sdtv", "sddvd", "hdtv", "rawhdtv", "fullhdtv", "hdwebdl", "fullhdwebdl", "hdbluray", "fullhdbluray", "unknown"])
+        self.archive, args = self.check_params(args, kwargs, "archive", None, False, "list", ["sddvd", "hdtv", "rawhdtv", "fullhdtv", "hdwebdl", "fullhdwebdl", "hdbluray", "fullhdbluray"])
         self.flatten_folders, args = self.check_params(args, kwargs, "flatten_folders", str(sickbeard.FLATTEN_FOLDERS_DEFAULT), False, "bool", [])
         self.status, args = self.check_params(args, kwargs, "status", None, False, "string", ["wanted", "skipped", "archived", "ignored"])
         self.lang, args = self.check_params(args, kwargs, "lang", "en", False, "string", self.valid_languages.keys())
@@ -1791,11 +1798,13 @@ class CMD_ShowAddNew(ApiCall):
         quality_map = {'sdtv': Quality.SDTV,
                        'sddvd': Quality.SDDVD,
                        'hdtv': Quality.HDTV,
+                       'rawhdtv': Quality.RAWHDTV,
+                       'fullhdtv': Quality.FULLHDTV,
                        'hdwebdl': Quality.HDWEBDL,
+                       'fullhdwebdl': Quality.FULLHDWEBDL,
                        'hdbluray': Quality.HDBLURAY,
                        'fullhdbluray': Quality.FULLHDBLURAY,
-                       'unknown': Quality.UNKNOWN,
-                       'any': ANY }
+                       'unknown': Quality.UNKNOWN}
 
         # use default quality as a failsafe
         newQuality = int(sickbeard.QUALITY_DEFAULT)
@@ -2148,49 +2157,29 @@ class CMD_ShowSetQuality(ApiCall):
         # optional
         # this for whatever reason removes hdbluray not sdtv... which is just wrong. reverting to previous code.. plus we didnt use the new code everywhere.
         # self.archive, args = self.check_params(args, kwargs, "archive", None, False, "list", _getQualityMap().values()[1:])
-        self.initial, args = self.check_params(args, kwargs, "initial", None, False, "list", ["sdtv", "sddvd", "hdtv", "hdwebdl", "hdbluray", "fullhdbluray", "unknown", "any"])
-        self.archive, args = self.check_params(args, kwargs, "archive", None, False, "list", ["sddvd", "hdtv", "hdwebdl", "hdbluray", "fullhdbluray", "unknown", "any"])
+        self.initial, args = self.check_params(args, kwargs, "initial", None, False, "list", ["sdtv", "sddvd", "hdtv", "rawhdtv", "fullhdtv", "hdwebdl", "fullhdwebdl", "hdbluray", "fullhdbluray", "unknown"])
+        self.archive, args = self.check_params(args, kwargs, "archive", None, False, "list", ["sddvd", "hdtv", "rawhdtv", "fullhdtv", "hdwebdl", "fullhdwebdl", "hdbluray", "fullhdbluray"])
         # super, missing, help
         ApiCall.__init__(self, args, kwargs)
 
     def run(self):
-        """ set the quality for a show in sickbeard """
+        """ set the quality for a show in sickbeard by taking in a deliminated
+            string of qualities, map to their value and combine for new values
+        """
         showObj = sickbeard.helpers.findCertainShow(sickbeard.showList, int(self.tvdbid))
         if not showObj:
             return _responds(RESULT_FAILURE, msg="Show not found")
 
-        """
-        take in a deliminated string of quality,
-        map that to the # it corresponds to,
-        then combine qualities to make a new quality
-
-        "self.initial": [
-          "sdtv",
-          "sddvd",
-          "hdtv",
-          "hdwebdl",
-          "hdbluray",
-          "unknown"
-        ],
-        "iqualityID": [
-            1,
-            2,
-            4,
-            8,
-            16,
-            32768
-        ],
-        "newQuality": 32799
-        """
-
         quality_map = {'sdtv': Quality.SDTV,
                        'sddvd': Quality.SDDVD,
                        'hdtv': Quality.HDTV,
+                       'rawhdtv': Quality.RAWHDTV,
+                       'fullhdtv': Quality.FULLHDTV,
                        'hdwebdl': Quality.HDWEBDL,
+                       'fullhdwebdl': Quality.FULLHDWEBDL,
                        'hdbluray': Quality.HDBLURAY,
                        'fullhdbluray': Quality.FULLHDBLURAY,
-                       'unknown': Quality.UNKNOWN,
-                       'any': ANY }
+                       'unknown': Quality.UNKNOWN}
 
         #use default quality as a failsafe
         newQuality = int(sickbeard.QUALITY_DEFAULT)
@@ -2257,7 +2246,7 @@ class CMD_ShowStats(ApiCall):
             episode_qualities_counts_snatch[statusCode] = 0
 
         myDB = db.DBConnection(row_type="dict")
-        sqlResults = myDB.select("SELECT status, season FROM tv_episodes WHERE showid = ?", [self.tvdbid])
+        sqlResults = myDB.select("SELECT status, season FROM tv_episodes WHERE season != 0 AND showid = ?", [self.tvdbid])
         # the main loop that goes through all episodes
         for row in sqlResults:
             status, quality = Quality.splitCompositeStatus(int(row["status"]))
@@ -2372,19 +2361,19 @@ class CMD_Shows(ApiCall):
                         "quality": _get_quality_string(curShow.quality),
                         "language": curShow.lang,
                         "air_by_date": curShow.air_by_date,
+                        "tvdbid": curShow.tvdbid,
                         "tvrage_id": curShow.tvrid,
                         "tvrage_name": curShow.tvrname,
                         "network": curShow.network,
+                        "show_name": curShow.name,
                         "status": curShow.status,
                         "next_ep_airdate": nextAirdate}
             showDict["cache"] = CMD_ShowCache((), {"tvdbid": curShow.tvdbid}).run()["data"]
             if not showDict["network"]:
                 showDict["network"] = ""
             if self.sort == "name":
-                showDict["tvdbid"] = curShow.tvdbid
                 shows[curShow.name] = showDict
             else:
-                showDict["show_name"] = curShow.name
                 shows[curShow.tvdbid] = showDict
         return _responds(RESULT_SUCCESS, shows)
 
@@ -2408,7 +2397,7 @@ class CMD_ShowsStats(ApiCall):
         stats["shows_total"] = len(sickbeard.showList)
         stats["shows_active"] = len([show for show in sickbeard.showList if show.paused == 0 and show.status != "Ended"])
         stats["ep_downloaded"] = myDB.select("SELECT COUNT(*) FROM tv_episodes WHERE status IN (" + ",".join([str(show) for show in Quality.DOWNLOADED + [ARCHIVED]]) + ") AND season != 0 and episode != 0 AND airdate <= " + today + "")[0][0]
-        stats["ep_total"] = myDB.select("SELECT COUNT(*) FROM tv_episodes WHERE season != 0 and episode != 0 AND (airdate != 1 OR status IN (" + ",".join([str(show) for show in (Quality.DOWNLOADED + Quality.SNATCHED + Quality.SNATCHED_PROPER) + [ARCHIVED]]) + ")) AND airdate <= " + today + " AND status != " + str(IGNORED) + "")[0][0]
+        stats["ep_total"] = myDB.select("SELECT COUNT(*) FROM tv_episodes WHERE season != 0 AND episode != 0 AND (airdate != 1 OR status IN (" + ",".join([str(show) for show in (Quality.DOWNLOADED + Quality.SNATCHED + Quality.SNATCHED_PROPER) + [ARCHIVED]]) + ")) AND airdate <= " + today + " AND status != " + str(IGNORED) + "")[0][0]
 
         myDB.connection.close()
         return _responds(RESULT_SUCCESS, stats)
