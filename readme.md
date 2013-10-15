@@ -1,4 +1,4 @@
-Modifications v0.2.4, build 501
+Modifications v0.2.4, build 501 [![Build Status](https://travis-ci.org/hobblygobbly/Sick-Beard.png?branch=master)](https://travis-ci.org/hobblygobbly/Sick-Beard)
 =====
 
 ##### Note: This modification contains build 501 of Sick Beard.
