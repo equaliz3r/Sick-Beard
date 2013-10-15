@@ -1,4 +1,4 @@
-Modifications v0.2.4
+Modifications v0.2.4, build 501
 =====
 
 ##### Note: This modification contains build 501 of Sick Beard.
