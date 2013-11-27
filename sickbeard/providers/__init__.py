@@ -20,12 +20,10 @@ __all__ = ['ezrss',
            'hdbits',
            'tvtorrents',
            'torrentleech',
-           'nzbsrus',
            'womble',
            'btn',
-           'newshost',
-           'nzbx',
-           'omgwtfnzbs'
+           'omgwtfnzbs',
+           'newshost'
            ]
 
 import sickbeard

@@ -1,7 +1,7 @@
-Modifications v0.2.4, build 501 [![Build Status](https://travis-ci.org/hobblygobbly/Sick-Beard.png?branch=master)](https://travis-ci.org/hobblygobbly/Sick-Beard)
+Modifications v0.2.4, build 502 [![Build Status](https://travis-ci.org/hobblygobbly/Sick-Beard.png?branch=master)](https://travis-ci.org/hobblygobbly/Sick-Beard)
 =====
 
-##### Note: This modification contains build 501 of Sick Beard.
+##### Note: This modification contains build 502 of Sick Beard.
 
 * Newshost provider.
 * Wrote unzip/uncompress support for nzbs delivered in zip files. Primarily aimed towards the black hole method.

@@ -1,5 +1,5 @@
-# Newshost provider for Sick Beard (v0.2.4 - build 501 SB)
-# Provider Author: Yngvi (hobblygobbly - http://hobblygobbly.co.vu/)
+# Newshost provider for Sick Beard (v0.2.4 - build 502 SB)
+# Provider Author: Yngvi (WooKi "hobblygobbly" - http://hobblygobbly.co.vu/ | http://github.com/hobblygobbly/Sick-Beard)
 # Sick Beard Author: Nic Wolfe <nic@wolfeden.ca>
 # URL: http://code.google.com/p/sickbeard/
 #
@@ -51,7 +51,7 @@ class NewshostCache(tvcache.TVCache):
 
         #DEPRECATED - SD: cat=7 | HD: cat=8 | RSS item display amount: n=50 (Change cat to your liking but leave n=50 alone!)
         url = 'http://www.newshost.za.net/rss.php?id='+ sickbeard.NEWSHOST_USERID +'&pass='+ sickbeard.NEWSHOST_AUTHKEY +'&cat=7,8&n=100'
-        logger.log(u"Newshost cache update URL : "+ url, logger.DEBUG)
+        logger.log(u"Newshost cache update URL: "+ url, logger.DEBUG)
 
         data = self.provider.getURL(url)
 
@@ -65,7 +65,7 @@ class NewshostCache(tvcache.TVCache):
             logger.log(u"The XML returned from the Newshost RSS feed is incomplete, this result is unusable", logger.DEBUG)
             return
 
-        logger.log(u"Adding item from RSS to cache : "+title, logger.DEBUG)
+        logger.log(u"Adding item from RSS to cache: "+title, logger.DEBUG)
 
         self._addCacheEntry(title, url)
 

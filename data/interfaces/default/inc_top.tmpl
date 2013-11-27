@@ -24,7 +24,7 @@
 
 <style type="text/css">
 <!--
-#contentWrapper { background: url("$sbRoot/images/bg.png") repeat fixed 0 0 transparent; }
+#contentWrapper { background: url("$sbRoot/images/bg.png") repeat 0 0 transparent; }
 
 [class^="icon-"], [class*=" icon-"] { background-image: url("$sbRoot/images/glyphicons-halflings.png"); }
 .icon-white { background-image: url("$sbRoot/images/glyphicons-halflings-white.png"); }
@@ -69,8 +69,8 @@
     <script type="text/javascript" src="$sbRoot/js/lib/jquery-ui-1.10.3.custom.min.js?$sbPID"></script>
     <script type="text/javascript" src="$sbRoot/js/lib/jquery.cookie.js?$sbPID"></script>
     <script type="text/javascript" src="$sbRoot/js/lib/jquery.selectboxes.min.js?$sbPID"></script>
-    <script type="text/javascript" src="$sbRoot/js/lib/jquery.tablesorter-2.1.19.min.js?$sbPID"></script>
-    <script type="text/javascript" src="$sbRoot/js/lib/jquery.tablesorter.widgets.min.js?$sbPID"></script>
+    <script type="text/javascript" src="$sbRoot/js/lib/jquery.tablesorter-2.14.min.js?$sbPID"></script>
+    <script type="text/javascript" src="$sbRoot/js/lib/jquery.tablesorter.widgets-2.14.min.js?$sbPID"></script>
     <script type="text/javascript" src="$sbRoot/js/lib/jquery.qtip-2012-04-26.min.js?$sbPID"></script>
     <script type="text/javascript" src="$sbRoot/js/lib/jquery.pnotify-1.2.2.min.js?$sbPID"></script>
     <script type="text/javascript" src="$sbRoot/js/lib/jquery.form-3.35.js?$sbPID"></script>
@@ -105,18 +105,10 @@
 
 <body>
     <header>
-#if $sickbeard.NEWEST_VERSION_STRING:
-<div id="upgrade-notification">
-    <div>
-        <span class="notify-text"><a href="https://github.com/zvvn/Sick-Beard">Modified - Sick Beard for Newshost v0.2.4 (Build 501 SB)</a>. Do NOT update through Sick Beard.</span>
-    </div>
-</div>
-<div id="header-fix"></div>
-#end if
 <div id="header">
     <a name="top"></a>
-    <span id="logo"><a href="$sbRoot/home/" title="Sick Beard homepage"><img alt="Sick Beard" src="$sbRoot/images/sickbeard.png" width="150" height="72" /></a></span>
-    <span id="versiontext">alpha <a href="https://github.com/midgetspy/Sick-Beard/wiki/ChangeLog" rel="noreferrer" onclick="window.open('${sickbeard.ANON_REDIRECT}' + this.href, '_blank'); return false;">$sickbeard.version.SICKBEARD_VERSION</a></span>
+    <span id="logo"><a href="$sbRoot/home/" title="Sick Beard NH"><img alt="Sick Beard" src="$sbRoot/images/sickbeard.png" width="150" height="72" /></a></span>
+    <span id="versiontext">alpha <a href="https://github.com/hobblygobbly/Sick-Beard/">build 502 - v0.2.4 NH</a></span>
 </div>
 
     <div class="navbar">
