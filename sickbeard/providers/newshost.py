@@ -50,7 +50,7 @@ class NewshostCache(tvcache.TVCache):
     def _getRSSData(self):
 
         #DEPRECATED - SD: cat=7 | HD: cat=8 | RSS item display amount: n=50 (Change cat to your liking but leave n=50 alone!)
-        url = 'http://www.newshost.za.net/rss.php?id='+ sickbeard.NEWSHOST_USERID +'&pass='+ sickbeard.NEWSHOST_AUTHKEY +'&cat=7,8&n=100'
+        url = 'http://www.newshost.za.net/rss.php?id='+ sickbeard.NEWSHOST_USERID +'&pass='+ sickbeard.NEWSHOST_AUTHKEY +'&cat=7,8,56&n=300'
         logger.log(u"Newshost cache update URL: "+ url, logger.DEBUG)
 
         data = self.provider.getURL(url)
